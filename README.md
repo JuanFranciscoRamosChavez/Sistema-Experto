@@ -1,8 +1,8 @@
-﻿# Sistema Experto para Pre-Diagnóstico Médico 🤖🩺
+﻿# Sistema Experto para Pre-Diagnóstico Médico.
 
 Este proyecto es un sistema experto basado en inteligencia artificial diseñado para ofrecer orientación sobre posibles diagnósticos médicos. El usuario puede describir sus síntomas en lenguaje natural y el sistema utiliza técnicas de búsqueda semántica y resumen de texto para presentar las enfermedades más relevantes de su base de conocimiento.
 
-## ✨ Características Principales
+## Características Principales
 
 -   **Búsqueda Semántica de Síntomas**: Utiliza modelos de `sentence-transformers` para entender el significado detrás de la descripción del usuario, en lugar de solo buscar palabras clave.
 -   **Resúmenes con IA**: Emplea modelos de `transformers` para generar resúmenes concisos de la descripción, diagnóstico y tratamiento de cada enfermedad.
@@ -10,7 +10,7 @@ Este proyecto es un sistema experto basado en inteligencia artificial diseñado 
 -   **Pipeline de Datos Automatizado**: Incluye una serie de scripts para construir la base de conocimiento desde cero, empezando por web scraping con Selenium.
 -   **Contenerizado con Docker**: Toda la aplicación y sus dependencias están empaquetadas en una imagen de Docker para una fácil ejecución y despliegue.
 
-## ⚙️ Flujo del Proyecto y Estructura de Archivos
+##  Flujo del Proyecto y Estructura de Archivos
 
 El proyecto se divide en dos fases principales: la **preparación de datos** (un pipeline de 4 pasos) y la **aplicación interactiva**.
 
@@ -45,35 +45,16 @@ El proyecto se divide en dos fases principales: la **preparación de datos** (un
     -   `Dockerfile`: Instrucciones para construir la imagen de la aplicación.
     -   `requirements.txt`: Lista de dependencias de Python.
 
-## 🚀 Cómo Ejecutar el Proyecto
+##  Cómo Ejecutar el Proyecto
 
-Tienes dos maneras de ejecutar la aplicación: usando Docker (recomendado y más fácil) o de forma local.
+La manera de ejecutar la aplicación: Es de forma local.
 
-### Opción A: Ejecutar con Docker (Recomendado)
-
-Esta es la forma más sencilla. Solo necesitas tener [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado.
-
-1.  **Construir la imagen de Docker**:
-    *Abre una terminal en la carpeta del proyecto y ejecuta:*
-    ```bash
-    docker build -t sistema-experto .
-    ```
-
-2.  **Ejecutar el contenedor**:
-    *Una vez construida la imagen, inicia la aplicación con:*
-    ```bash
-    docker run -p 8501:8501 sistema-experto
-    ```
-
-3.  **Abrir la aplicación**:
-    *Ve a `http://localhost:8501` en tu navegador web.*
-
-### Opción B: Ejecución Local
+### Ejecución Local
 
 1.  **Clonar el repositorio**:
     ```bash
-    git clone <URL_DE_TU_REPOSITORIO>
-    cd <NOMBRE_DEL_REPOSITORIO>
+    git clone <https://github.com/JuanFranciscoRamosChavez/Sistema-Experto.git>
+    cd Sistema-Experto
     ```
 
 2.  **Crear y activar un entorno virtual**:
@@ -115,4 +96,3 @@ Esta es la forma más sencilla. Solo necesitas tener [Docker Desktop](https://ww
 -   **spaCy**: Para el procesamiento de lenguaje natural en el pipeline.
 -   **Selenium**: Para el web scraping.
 -   **Pandas**: Para la manipulación de datos.
--   **Docker**: Para la contenerización de la aplicación.
