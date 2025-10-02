@@ -8,8 +8,19 @@ from bs4 import BeautifulSoup
 import json
 import time
 
+"""
+Script para extraer detalles completos de cada enfermedad del sitio web de Mayo Clinic en español.
+Utiliza Selenium para manejar contenido dinámico y BeautifulSoup para parsear el HTML.
+Navega por las pestañas de cada página de enfermedad para obtener información estructurada.
+Guarda los datos en un archivo JSON.
+"""
+
+
 # --- CONFIGURACIÓN ---
 SECCIONES_SINTOMAS_CAUSAS = [
+    """
+    Detalles de las secciones a extraer de la pestaña principal (Síntomas y causas).
+    """
     "descripción general",
     "síntomas", 
     "causas",
@@ -19,9 +30,16 @@ SECCIONES_SINTOMAS_CAUSAS = [
 ]
 
 SECCIONES_DIAGNOSTICO_TRATAMIENTO = [
+    """
+    Detalles de las secciones a extraer de la pestaña (Diagnóstico y tratamiento
+    """
     "diagnóstico",
     "tratamiento"
 ]
+
+"""
+Nombres de los archivos de entrada y salida.
+"""
 
 ARCHIVO_ENTRADA = '1_lista_enfermedades.json'
 ARCHIVO_SALIDA = '2_enfermedades_detallado_crudo.json'
@@ -233,7 +251,14 @@ def extraer_detalles_completos(driver, url_enfermedad):
     return resultados
 
 if __name__ == "__main__":
-    # --- 1. Cargar la lista de enfermedades ---
+    """
+    Proceso principal para extraer detalles de enfermedades desde un archivo JSON de entrada.
+    1. Cargar la lista de enfermedades desde un archivo JSON.
+    2. Iniciar el navegador Selenium.
+    3. Procesar cada enfermedad para extraer detalles.
+    4. Cerrar el navegador.
+    5. Guardar el resultado final en un archivo JSON.
+    """
     try:
         with open(ARCHIVO_ENTRADA, 'r', encoding='utf-8') as f:
             datos = json.load(f)
@@ -292,6 +317,6 @@ if __name__ == "__main__":
         json.dump(datos_finales, f, ensure_ascii=False, indent=4)
 
     print("\n" + "="*60)
-    print("¡PROCESO FINAL COMPLETADO CON ÉXITO!")
+    print("¡Proceso completado con éxito!")
     print(f"Los datos completos se han guardado en '{ARCHIVO_SALIDA}'")
     print("="*60)

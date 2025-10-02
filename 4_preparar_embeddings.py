@@ -3,6 +3,15 @@ import pandas as pd
 from sentence_transformers import SentenceTransformer
 import torch # Usaremos PyTorch para guardar los embeddings
 
+"""
+Script para pre-calcular y guardar los embeddings de las enfermedades
+usando un modelo de SentenceTransformer optimizado para español.
+Estos embeddings se usarán luego para búsquedas semánticas rápidas.
+Es importante ejecutar este script después de haber procesado y enriquecido
+los datos con '3_procesar_y_enriquecer_datos.py' para asegurar que los datos
+estén en el formato correcto.
+"""
+
 # --- CONSTANTES Y CONFIGURACIÓN ---
 MODEL_NAME = 'hiiamsid/sentence_similarity_spanish_es'
 INPUT_JSON = '3_datos_completos_procesados.json'
@@ -12,7 +21,7 @@ OUTPUT_EMBEDDINGS_FILE = 'disease_embeddings.pt' # Guardaremos los vectores en u
 def obtener_texto_sintomas(enfermedad):
     """
     Extrae y concatena el texto de la sección de síntomas de una enfermedad.
-    Es importante que esta lógica sea consistente con la de tu app.
+    Es importante que esta lógica sea consistente con la UI.
     """
     try:
         # Busca la sección de síntomas
@@ -42,7 +51,7 @@ def main():
     # 1. Cargar el modelo de SentenceTransformer
     print(f"Cargando el modelo '{MODEL_NAME}'... (Esto puede tardar unos minutos la primera vez)")
     model = SentenceTransformer(MODEL_NAME)
-    print("✓ Modelo cargado.")
+    print(" Modelo cargado.")
 
     # 2. Cargar y procesar los datos JSON
     print(f"Cargando datos desde '{INPUT_JSON}'...")
@@ -50,7 +59,7 @@ def main():
         data = json.load(f)
     
     enfermedades = data.get('enfermedades', [])
-    print(f"✓ Se encontraron {len(enfermedades)} enfermedades.")
+    print(f" Se encontraron {len(enfermedades)} enfermedades.")
     
     # 3. Extraer el texto de los síntomas de cada enfermedad
     textos_sintomas = []
@@ -64,13 +73,17 @@ def main():
             
     print(f"Generando embeddings para {len(enfermedades_validas)} enfermedades con descripción de síntomas.")
 
-    # 4. Generar los embeddings para todos los textos
-    # Usamos convert_to_tensor=True para que el resultado sea un tensor de PyTorch,
-    # que es lo que la función de búsqueda semántica espera.
+    """
+    4. Generar los embeddings para todos los textos
+    Usamos convert_to_tensor=True para que el resultado sea un tensor de PyTorch,
+    que es lo que la función de búsqueda semántica espera.
+    """
     embeddings = model.encode(textos_sintomas, show_progress_bar=True, convert_to_tensor=True)
-    
-    # 5. Guardar los resultados
-    # Guardamos los embeddings en el formato nativo de PyTorch, es muy eficiente.
+
+    """
+    5. Guardar los resultados
+    Guardamos los embeddings en el formato nativo de PyTorch, es muy eficiente.
+    """
     torch.save(embeddings, OUTPUT_EMBEDDINGS_FILE)
     print(f"✓ Embeddings guardados en '{OUTPUT_EMBEDDINGS_FILE}'")
 

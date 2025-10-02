@@ -2,13 +2,12 @@ import streamlit as st
 import pandas as pd
 from sentence_transformers import SentenceTransformer, util
 import torch
-from transformers import pipeline # ¡Importante! Añadimos la librería de transformers
+from transformers import pipeline 
 
 # --- 1. CONFIGURACIÓN Y CONSTANTES ---
 DATA_FILE = 'processed_data.pkl'
 EMBEDDINGS_FILE = 'disease_embeddings.pt'
 MODEL_NAME = 'hiiamsid/sentence_similarity_spanish_es'
-# --- ¡NUEVO! Selecciona tu modelo de resumen aquí ---
 SUMMARIZER_MODEL = 'facebook/bart-large-cnn' # El especialista en español
 NUM_RESULTADOS = 5
 
@@ -31,7 +30,6 @@ def load_embeddings():
     except FileNotFoundError:
         return None
 
-# --- ¡NUEVO! Función para cargar el modelo de resumen ---
 @st.cache_resource
 def load_summarizer():
     """Carga el pipeline de resumen una sola vez."""
@@ -40,7 +38,7 @@ def load_summarizer():
 
 # --- 3. LÓGICA DEL NEGOCIO ---
 def find_similar_diseases_semantic(query, model, disease_embeddings, df):
-    # (Esta función no cambia)
+    """Busca enfermedades similares usando búsqueda semántica."""
     if not query or disease_embeddings is None:
         return pd.DataFrame()
     query_embedding = model.encode(query, convert_to_tensor=True)
@@ -52,7 +50,6 @@ def find_similar_diseases_semantic(query, model, disease_embeddings, df):
     results_df['similarity'] = scores
     return results_df
 
-# --- ¡NUEVO! Funciones para extraer y resumir texto ---
 def get_section_text(disease_data, section_title):
     """Extrae el texto completo de una sección específica (ej. 'Descripción general')."""
     all_sections = disease_data.get('sintomas_causas', []) + disease_data.get('diagnostico_tratamiento', [])
@@ -76,13 +73,13 @@ def summarize_text(text, summarizer, max_length=150, min_length=40):
     return summary[0]['summary_text']
 
 
-# --- 4. COMPONENTES DE LA UI (ACTUALIZADO) ---
 def setup_page():
     st.set_page_config(page_title="Asistente de Diagnóstico Semántico", layout="wide")
     st.title("Asistente de Diagnóstico Semántico ")
 
 def display_results(results_df, summarizer):
-    """Ahora esta función también necesita el 'summarizer' para funcionar."""
+    """Ahora esta función también necesita el 'summarizer' para funcionar.
+     Muestra los resultados en la interfaz de Streamlit."""
     if results_df is None:
         st.info("El asistente está listo para analizar tus síntomas.")
         return
@@ -113,8 +110,6 @@ def display_results(results_df, summarizer):
             if url:
                 st.markdown(f"[Leer más en la fuente original]({url})")
 
-
-# --- 5. FUNCIÓN PRINCIPAL Y MANEJO DE ESTADO ---
 def main():
     setup_page()
     

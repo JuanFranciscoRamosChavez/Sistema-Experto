@@ -9,8 +9,34 @@ import string
 from datetime import datetime
 import hashlib
 
+"""
+Script para extraer la lista de enfermedades del sitio web de Mayo Clinic en español.
+Utiliza Selenium para manejar contenido dinámico y genera un ID único para cada enfermedad.
+Guarda los datos en un archivo JSON y verifica la integridad de los IDs generados.
+"""
+
 BASE_URL = "https://www.mayoclinic.org"
 DISEASES_URL = f"{BASE_URL}/es/diseases-conditions"
+
+"""
+La estructura del JSON resultante será:
+{
+    "metadata": {
+        "fuente": "https://www.mayoclinic.org/es/diseases-conditions",
+        "total_registros": 1234
+    },
+    "enfermedades": [           
+        {
+            "id": "abc123def4",
+            "nombre": "Nombre de la enfermedad",
+            "url": "https://www.mayoclinic.org/es/diseases-conditions/nombre-de-la-enfermedad"
+        },
+        ...
+    ]
+}
+"""
+
+ARCHIVO_SALIDA = '1_lista_enfermedades.json'
 
 def crear_hash_id(texto):
     """
@@ -21,7 +47,7 @@ def crear_hash_id(texto):
 
 def scrape_disease_list():
     """
-    Configura Selenium y extrae el id, nombre y URL de todas las enfermedades.
+    Configuración de Selenium para extraer el id, nombre y URL de todas las enfermedades.
     """
     service = Service()
     options = webdriver.ChromeOptions()
@@ -112,10 +138,10 @@ if __name__ == "__main__":
         }
 
         try:
-            with open('1_lista_enfermedades.json', 'w', encoding='utf-8') as f:
+            with open(ARCHIVO_SALIDA, 'w', encoding='utf-8') as f:
                 json.dump(datos_finales, f, ensure_ascii=False, indent=4)
             print("¡Proceso completado con éxito!")
-            print("Los datos se han guardado en '1_lista_enfermedades.json'")
+            print(f"Los datos se han guardado en '{ARCHIVO_SALIDA}'")
             print("="*60)
         except IOError as e:
             print(f"Error al guardar el archivo JSON: {e}")

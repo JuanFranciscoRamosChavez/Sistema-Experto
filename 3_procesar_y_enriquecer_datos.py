@@ -5,9 +5,21 @@ import spacy
 from spacy.matcher import Matcher
 from collections import defaultdict
 
+"""
+Procesamiento y enriquecimiento de datos de enfermedades:
+- Extracción avanzada de síntomas estructurados.
+- Análisis demográfico mejorado.
+- Creación de un índice invertido desde categorías de síntomas hacia enfermedades.
+- Unión de archivos JSON en uno solo.
+"""
+
 class ProcesadorEnfermedades:
     def __init__(self):
-        # Configuración de categorías de síntomas AMPLIADA
+        """
+        Inicializa el procesador con categorías de síntomas y configuraciones de NLP.
+        Al no tener una gran referencia de síntomas, se opta por una categorización amplia y
+        se mejora la extracción de síntomas y demografía para una cobertura total del texto.
+        """
         self.categorias_sintomas = {
             "Dolor": ["acidez estomacal", "ardor al orinar", "disuria", "ardor de ojos", "dolor abdominal",
                      "dolor pelvico", "dolor al tener relaciones sexuales", "dispareunia",
@@ -108,6 +120,8 @@ class ProcesadorEnfermedades:
         self.configurar_matcher_demografia()
 
     def configurar_matcher_demografia(self):
+        #Configuración de patrones para extraer información demográfica como edad y género.
+    
         self.matcher = Matcher(self.nlp.vocab)
         patrones = [
             [{"LOWER": {"IN": ["mayores", "después", "partir"]}}, {"LIKE_NUM": True}],
@@ -119,12 +133,16 @@ class ProcesadorEnfermedades:
             self.matcher.add(f"PATRON_{i}", [patron])
 
     def limpiar_texto(self, texto):
+        # Normaliza y limpia el texto para facilitar la búsqueda de síntomas.
+
         if not isinstance(texto, str): return ""
         nfkd_form = unicodedata.normalize('NFKD', texto.lower())
         texto_limpio = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
         return re.sub(r'[^\w\s]', '', texto_limpio)
 
     def extraer_sintomas_estructurados(self, contenido_texto):
+        # Extrae síntomas del texto y los organiza por categorías.
+    
         contenido_limpio = self.limpiar_texto(contenido_texto)
         sintomas_encontrados = {}
         for categoria, lista_sintomas in self.categorias_sintomas.items():
@@ -134,6 +152,9 @@ class ProcesadorEnfermedades:
         return sintomas_encontrados
 
     def analizar_demografia(self, texto):
+    
+        # Analiza el texto para extraer información demográfica como edad y género.
+        
         if not texto or not texto.strip():
             return {"min_edad": 18, "max_edad": 59, "rango_edad_comun": ["adulto"], "genero_mas_afectado": "Ambos"}
             
@@ -152,7 +173,6 @@ class ProcesadorEnfermedades:
         max_edad = max(rangos_por_defecto[rango][1] for rango in rangos_edad)
         return {"min_edad": min_edad, "max_edad": max_edad, "rango_edad_comun": list(rangos_edad), "genero_mas_afectado": genero}
 
-    # --- FUNCIÓN MEJORADA PARA COBERTURA TOTAL ---
     def procesar_enfermedad_completa(self, enfermedad):
         """
         Procesa una enfermedad, extrayendo síntomas y demografía de TODO el texto disponible
@@ -189,7 +209,7 @@ class ProcesadorEnfermedades:
         return enfermedad_actualizada
 
     def crear_indice_sintomas(self, enfermedades_procesadas):
-        """Crea un índice invertido desde las CATEGORÍAS de síntomas hacia las enfermedades."""
+        # Crea un índice invertido desde las CATEGORÍAS de síntomas hacia las enfermedades.
         indice = defaultdict(list)
         for enfermedad in enfermedades_procesadas:
             info_enfermedad = {
@@ -207,7 +227,7 @@ class ProcesadorEnfermedades:
         return dict(sorted(indice.items()))
 
     def unir_archivos_json(self, archivo_enfermedades, archivo_indice, archivo_salida_unificado):
-        """Une los archivos de enfermedades procesadas y el índice de síntomas en uno solo."""
+        # Une los archivos de enfermedades procesadas y el índice de síntomas en uno solo.
         print("\n=== UNIENDO ARCHIVOS JSON ===")
         try:
             with open(archivo_enfermedades, 'r', encoding='utf-8') as f:
@@ -223,13 +243,14 @@ class ProcesadorEnfermedades:
             with open(archivo_salida_unificado, 'w', encoding='utf-8') as f:
                 json.dump(datos_unificados, f, ensure_ascii=False, indent=4)
             
-            print(f"✓ Archivos unificados guardados en: {archivo_salida_unificado}")
+            print(f" Archivos unificados guardados en: {archivo_salida_unificado}")
         except FileNotFoundError as e:
             print(f"Error: No se pudo encontrar el archivo {e.filename}")
         except json.JSONDecodeError:
             print("Error: Uno de los archivos JSON es inválido.")
 
     def ejecutar_pipeline_completo(self, archivo_entrada, archivo_salida_enfermedades, archivo_salida_indice, archivo_salida_unificado):
+        # Ejecuta todo el pipeline de procesamiento y enriquecimiento de datos.
         print("=== INICIANDO PROCESAMIENTO COMPLETO DE ENFERMEDADES ===")
         try:
             with open(archivo_entrada, 'r', encoding='utf-8') as f:
@@ -250,12 +271,12 @@ class ProcesadorEnfermedades:
         datos_salida = {"enfermedades": enfermedades_procesadas}
         with open(archivo_salida_enfermedades, 'w', encoding='utf-8') as f:
             json.dump(datos_salida, f, ensure_ascii=False, indent=4)
-        print(f"✓ Enfermedades procesadas guardadas en: {archivo_salida_enfermedades}")
+        print(f" Enfermedades procesadas guardadas en: {archivo_salida_enfermedades}")
         
         indice_sintomas = self.crear_indice_sintomas(enfermedades_procesadas)
         with open(archivo_salida_indice, 'w', encoding='utf-8') as f:
             json.dump(indice_sintomas, f, ensure_ascii=False, indent=4)
-        print(f"✓ Índice de síntomas por categoría guardado en: {archivo_salida_indice}")
+        print(f" Índice de síntomas por categoría guardado en: {archivo_salida_indice}")
         
         self.unir_archivos_json(archivo_salida_enfermedades, archivo_salida_indice, archivo_salida_unificado)
         
@@ -268,7 +289,6 @@ class ProcesadorEnfermedades:
             for categoria, lista in top_categorias[:10]:
                 print(f"- {categoria}: {len(lista)} enfermedades")
 
-# --- EJECUCIÓN PRINCIPAL ---
 if __name__ == "__main__":
     procesador = ProcesadorEnfermedades()
     archivo_entrada = "2_enfermedades_detallado_crudo.json"

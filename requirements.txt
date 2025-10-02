@@ -1,9 +1,20 @@
-streamlit
-pandas
-sentence-transformers
-torch
-transformers
-spacy==3.7.2  
-selenium
-beautifulsoup4
-lxml
+# Dependencias para procesamiento de lenguaje natural en español
+spacy==3.7.2 
+python -m spacy download es_core_news_sm
+
+# Dependencias para manejo de datos y JSON
+pip install pandas  
+
+# Dependencias para embeddings y modelos de lenguaje
+pip install sentence-transformers
+pip install torch
+pip install transformers
+
+# Dependencias para web scraping
+pip install selenium
+pip install beautifulsoup4
+pip install lxml
+pip install requests
+
+# Dependencias para la interfaz web
+pip install streamlit
