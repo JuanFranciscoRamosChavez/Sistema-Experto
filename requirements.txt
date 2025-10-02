@@ -1,0 +1,9 @@
+streamlit
+pandas
+sentence-transformers
+torch
+transformers
+spacy==3.7.2  
+selenium
+beautifulsoup4
+lxml
