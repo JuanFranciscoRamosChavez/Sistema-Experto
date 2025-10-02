@@ -8,7 +8,6 @@ Este proyecto es un sistema experto basado en inteligencia artificial diseñado 
 -   **Resúmenes con IA**: Emplea modelos de `transformers` para generar resúmenes concisos de la descripción, diagnóstico y tratamiento de cada enfermedad.
 -   **Interfaz Interactiva**: Construido con Streamlit para una experiencia de usuario amigable y reactiva.
 -   **Pipeline de Datos Automatizado**: Incluye una serie de scripts para construir la base de conocimiento desde cero, empezando por web scraping con Selenium.
--   **Contenerizado con Docker**: Toda la aplicación y sus dependencias están empaquetadas en una imagen de Docker para una fácil ejecución y despliegue.
 
 ##  Flujo del Proyecto y Estructura de Archivos
 
