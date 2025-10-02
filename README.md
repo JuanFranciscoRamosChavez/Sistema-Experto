@@ -88,7 +88,7 @@ La manera de ejecutar la aplicación: Es de forma local.
     streamlit run UI.py
     ```
 
-## 🛠️ Tecnologías Utilizadas
+##  Tecnologías Utilizadas
 
 -   **Python**
 -   **Streamlit**: Para la interfaz de usuario.
