@@ -60,7 +60,7 @@ La manera de ejecutar la aplicación: Es de forma local.
 2.  **Crear y activar un entorno virtual**:
     ```bash
     # Crear el entorno
-    python -m venv .venv
+    py -3.11 -m venv .venv
 
     # Activar en Windows
     .\.venv\Scripts\activate
@@ -88,7 +88,7 @@ La manera de ejecutar la aplicación: Es de forma local.
     streamlit run UI.py
     ```
 
-## 🛠️ Tecnologías Utilizadas
+##  Tecnologías Utilizadas
 
 -   **Python**
 -   **Streamlit**: Para la interfaz de usuario.

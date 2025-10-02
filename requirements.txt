@@ -1,20 +1,9 @@
-# Dependencias para procesamiento de lenguaje natural en español
-spacy==3.7.2 
-python -m spacy download es_core_news_sm
-
-# Dependencias para manejo de datos y JSON
-pip install pandas  
-
-# Dependencias para embeddings y modelos de lenguaje
-pip install sentence-transformers
-pip install torch
-pip install transformers
-
-# Dependencias para web scraping
-pip install selenium
-pip install beautifulsoup4
-pip install lxml
-pip install requests
-
-# Dependencias para la interfaz web
-pip install streamlit
+streamlit>=1.28.0
+pandas>=2.1.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+selenium>=4.15.0
+sentence-transformers>=2.2.0
+transformers>=4.35.0
+spacy>=3.7.0
+https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.7.0/es_core_news_sm-3.7.0-py3-none-any.whl
