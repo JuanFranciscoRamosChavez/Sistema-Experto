@@ -52,7 +52,7 @@ La manera de ejecutar la aplicación: Es de forma local.
 
 1.  **Clonar el repositorio**:
     ```bash
-    git clone <https://github.com/JuanFranciscoRamosChavez/Sistema-Experto.git>
+    git clone https://github.com/JuanFranciscoRamosChavez/Sistema-Experto.git
     cd Sistema-Experto
     ```
 
