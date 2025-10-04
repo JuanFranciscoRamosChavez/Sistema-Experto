@@ -1,3 +1,5 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
 streamlit>=1.28.0
 pandas>=2.1.0
 beautifulsoup4>=4.12.0
