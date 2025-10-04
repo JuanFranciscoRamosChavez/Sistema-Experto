@@ -48,6 +48,8 @@ El proyecto se divide en dos fases principales: la **preparación de datos** (un
 
 La manera de ejecutar la aplicación: Es de forma local.
 
+Compartimos el link de la versión de Python para la ejecución del código, para no llegar a tener incompatibilidades con el entorno virtual https://www.python.org/downloads/release/python-3119/   
+
 ### Ejecución Local
 
 1.  **Clonar el repositorio**:
