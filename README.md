@@ -60,8 +60,11 @@ Compartimos el link de la versión de Python para la ejecución del código, par
 
 2.  **Crear y activar un entorno virtual**:
     ```bash
-    # Crear el entorno
+    # Crear el entorno en Windows 
     py -3.11 -m venv .venv
+
+    # Crear el entorno en macOS/Linux
+    python3 -m venv .venv
 
     # Activar en Windows
     .\.venv\Scripts\activate
